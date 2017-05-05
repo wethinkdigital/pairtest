@@ -9,7 +9,9 @@ const ac = {
     },
 
     charArray: index => {
-        if(index === 27){ // full stop
+        if(index === -1){
+            return false;
+        } else if(index === 27){ // full stop
             var carray = new Array(27).fill(1);    
         } else {
             var carray = new Array(27).fill(0);
@@ -19,13 +21,15 @@ const ac = {
     },
 
     stringArray: string => {
-        var indexArray = string.split('').map(ac.charIndex);
-        return indexArray.map(ac.charArray);    
+        var indexArray = string.toLowerCase().split('').map(ac.charIndex);
+        var output = indexArray.map(ac.charArray);    
+        return output.indexOf(false) < 0 ? output : false;
     },
 
     render: string => {
 
         var messageArray = ac.stringArray(string);
+        if(messageArray){
         let i = 1;
         messageArray.map(function(el){
             setTimeout(function(){
@@ -33,6 +37,9 @@ const ac = {
             }, i*1000);
             i++;
         });
+        } else {
+            console.log('This message contains unsupported characters');
+        }
     }
 
 }
